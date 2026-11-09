@@ -14,6 +14,14 @@ struct ProfileView: View {
     @AppStorage(BodyAlgorithm.preferenceKey) private var algorithmKind = BodyAlgorithm.Kind.segal.rawValue
     @State private var showingAddMember = false
     @State private var editingMember: FamilyMember?
+    /// 补丁版本号：每次发布新补丁时手动升版，与 README-PATCH-B1.md 的版本记录保持一致。
+    private let patchVersion = "v1.15"
+    private var appVersionText: String {
+        let info = Bundle.main.infoDictionary
+        let short = info?["CFBundleShortVersionString"] as? String ?? "-"
+        let build = info?["CFBundleVersion"] as? String ?? "-"
+        return "\(short) (\(build))"
+    }
     var body: some View {
         NavigationStack { Form {
             Section {
@@ -206,6 +214,14 @@ struct ProfileView: View {
                 }
             } header: {
                 Text("显示")
+            }
+            Section {
+                HStack {
+                    Text("版本")
+                    Spacer()
+                    Text("B1 补丁 \(patchVersion) · \(appVersionText)")
+                        .foregroundStyle(.secondary)
+                }
             }
         }
             .navigationTitle("我的资料")
